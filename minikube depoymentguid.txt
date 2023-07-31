@@ -1,0 +1,64 @@
+***ON CMD ***
+
+C:\Users\user\Desktop\Minikube>minikube version
+minikube version: v1.30.1
+
+C:\Users\user\Desktop\Minikube>minikube start --driver=docker
+
+C:\Users\user\Desktop\Minikube>minikube status
+apiserver: Running
+apiserver: Running
+apiserver: Running
+apiserver: Running
+kubeconfig: Configured
+
+C:\Users\user\Desktop\Minikube>kubectl cluster-info
+Kubernetes control plane is running at https://127.0.0.1:55262
+
+C:\Users\user\Desktop\Minikube>kubectl get node
+minikube   Ready    control-plane   21m   v1.26.3
+
+C:\Users\user\Desktop\Minikube>minikube docker-env
+SET DOCKER_TLS_VERIFY=1
+SET DOCKER_HOST=tcp://127.0.0.1:55259
+SET DOCKER_CERT_PATH=C:\Users\user\.minikube\certs
+SET MINIKUBE_ACTIVE_DOCKERD=minikube
+REM To point your shell to minikube's docker-daemon, run:
+REM @FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
+
+C:\Users\user\Desktop\Minikube>@FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
+
+C:\Users\user\Desktop\Minikube>cd C:\Users\user\Desktop\Java Project\kubernetes\kubernetes
+
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>docker build -t kubernetes:1.0 .
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>docker images
+
+To cretae a deployment object->
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>kubectl create deployment mykubernes --image=kubernetes:1.0 --port=8081
+ outpu--->deployment.apps/mykubernes created
+
+To delete deployment object --->
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>kubectl delete deployment vinod-spring-boot
+Output --->deployment.apps "vinod-spring-boot" deleted
+
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>kubectl get deployment
+NAME           READY   UP-TO-DATE   AVAILABLE   AGE
+mydeployment   1/1     1            1           40h
+mykubernes     0/1     1            0           7m16s
+
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>kubectl describe deployment mydeployment
+
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>kubectl get pods
+NAME                            READY   STATUS    RESTARTS      AGE
+mydeployment-59775c6d5f-b9m7q   1/1     Running   1 (73m ago)   41h
+
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>kubectl logs mydeployment-59775c6d5f-b9m7q
+
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>kubectl get service
+NAME           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+kubernetes     ClusterIP   10.96.0.1       <none>        443/TCP          44h
+mydeployment   NodePort    10.103.54.183   <none>        8081:31830/TCP   40h
+
+To get service url --->
+C:\Users\user\Desktop\Java Project\kubernetes\kubernetes>minicube get service --url
+
